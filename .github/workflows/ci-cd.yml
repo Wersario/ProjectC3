@@ -37,18 +37,6 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/sports_backend:latest ./backend
 
-      - name: Build Frontend Image
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/sports_frontend:latest ./frontend
-
-      - name: Push Backend Image
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/sports_backend:latest
-
-      - name: Push Frontend Image
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/sports_frontend:latest
-
   tests:
     needs: build
     runs-on: ubuntu-latest
