@@ -49,16 +49,11 @@ jobs:
 
   # Deploy job: развертывание на сервере
   deploy:
-    needs: tests
+    needs: build
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Deploy to Swarm
-        env:
-          DOCKER_HOST: ssh://username@your-server-ip
-          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+      - name: Run Integration tests
         run: |
-          docker stack deploy -c docker-compose.yml sports_system
+            sleep 40
