@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sports Event</title>
+</head>
+<body>
+  <h1>Sports Event Registration</h1>
+  <form id="participant-form">
+    <input type="text" id="full_name" placeholder="Full Name" required>
+    <input type="text" id="event_name" placeholder="Event Name" required>
+    <button type="submit">Register</button>
+  </form>
+  <h2>Participants:</h2>
+  <ul id="participants-list"></ul>
+
+  <script>
+    const form = document.getElementById('participant-form');
+    const participantsList = document.getElementById('participants-list');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fullName = document.getElementById('full_name').value;
+      const eventName = document.getElementById('event_name').value;
+
+      await fetch('http://localhost:5000/participants', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ full_name: fullName, event_name: eventName })
+      });
+
+      loadParticipants();
+    });
+
+    async function loadParticipants() {
+      const response = await fetch('http://localhost:5000/participants');
+      const participants = await response.json();
+      participantsList.innerHTML = participants.map(p => `<li>${p.full_name} (${p.event_name})</li>`).join('');
+    }
+
+    loadParticipants();
+  </script>
+</body>
+</html>
